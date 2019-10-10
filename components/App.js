@@ -8,18 +8,7 @@ App = React.createClass ({
         };
     },
 
-    handleSearch: function(searchingText) {
-        this.setState({
-            loading: true
-        });
-        this.getGif(searchingText, function(gif){
-            this.setState({
-                loading: false,
-                gif: gif,
-                searchingText: searchingText
-            });
-        }.bind(this));
-    },
+
 
     /*
 
@@ -66,7 +55,7 @@ App = React.createClass ({
                             sourceUrl: data.url
                         };
 
-                        resolve(this.gif);
+                        resolve(gif);
                     } else {
                         reject(new Error(this.statusText));
                     }
@@ -81,13 +70,21 @@ App = React.createClass ({
                 xhr.send();
             }
         );
-
-        //getGif(searchingText)
-            //.then(response => console.log(reponse))
-            //.catch(error => console.log(error));
     },
 
-
+    handleSearch: function(searchingText) {
+        this.setState({
+            loading: true
+        });
+        this.getGif(searchingText)
+            .then((gif) => {
+                this.setState({
+                    loading: false,
+                    gif: gif,
+                    searchingText: searchingText
+                });
+            });
+    },
 
     render: function() {
         var styles = {
